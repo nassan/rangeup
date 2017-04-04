@@ -21,11 +21,11 @@ namespace RangeUpApp
                 // Need to sign in
                 MainPage = new NavigationPage(new SignInPage());
             }
-            // else {
+            else {
                 // Need to go directly to the proper screen
                 // for Master - master screen
                 // for Field - filed screen
-            //}
+            }
 			//MainPage = new RangeUpApp.MainPage();
 		}
 
