@@ -31,9 +31,10 @@ namespace RangeUpApp
 
             if (isValid)
             {
-                if (isRememberMe){
-                    saveRememberMeChoice();
-                }
+                // When Sign In Button pressed - save 'remember me' choice
+                Application.Current.Properties[App.IsRememberMePressedConst] = isRememberMe;
+
+                // open new windows
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             } else
@@ -43,11 +44,7 @@ namespace RangeUpApp
             }
 
         }
-
-        private void saveRememberMeChoice()
-        {
-            Application.Current.Properties[App.IsRememberMePressedConst] = isRememberMe;
-        }
+        
 
         private bool AreCredentialsCorrect(User user)
         {
