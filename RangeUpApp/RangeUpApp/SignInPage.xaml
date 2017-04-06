@@ -16,8 +16,8 @@
             <Entry x:Name="passwordEntry" Placeholder="Password" Margin="20,0,20,0"  IsPassword="true" />
             <Label Text="Remember Me" HorizontalOptions="End" Margin="0,0,20,0" />
             <Switch x:Name="rememberMeEntry" HorizontalOptions="End" Margin="0,0,20,0"  Toggled="OnSwitchToggle"/>
-            <Button Text="Sign In" Clicked="OnSignInbuttonClicked" />
-            <Label x:Name="messageLabel" />
+            <Button Text="Sign In" Clicked="OnSignInbuttonClicked" Margin="20,0,20,0" />
+            <Label x:Name="messageLabel" Margin="10,10,0,10" TextColor="#FF0000" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

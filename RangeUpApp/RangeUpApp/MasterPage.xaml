@@ -1,0 +1,66 @@
+﻿
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:local="clr-namespace:MasterDetailPageNavigation;assembly=MasterDetailPageNavigation"
+                  x:Class="RangeUpApp.MasterPage">
+
+    <!--Master Detail Page-->
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu"
+             BackgroundColor="#e8e8e8">
+            <StackLayout Orientation="Vertical">
+
+                <!--This stack for the Title inf-->
+                <StackLayout BackgroundColor="#e74c3c">
+
+                    <StackLayout HeightRequest="70" >
+                        <Label Text="Some Text title"
+                             FontSize="20"
+                             VerticalOptions="EndAndExpand"
+                             TextColor="White"
+                             HorizontalOptions="Center"/>
+                    </StackLayout>
+                    
+                    <!--And this is listView of all menu items-->
+                    <ListView   x:Name="navigationDrawerList"
+                              RowHeight="60"
+                              SeparatorVisibility="None"
+                              BackgroundColor="#e8e8e8"
+                              ItemSelected="OnMenuItemSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <!--Here will be our design-->
+                                    <StackLayout   VerticalOptions="FillAndExpand"
+                             Orientation="Horizontal"
+                             Padding="20,10,0,10"
+                             Spacing="20">
+
+                                        <!--<Image Source="{Binding Icon}"
+                       WidthRequest="40"
+                       HeightRequest="40"
+                       VerticalOptions="Center" />-->
+
+                                        <Label Text="{Binding Title}"
+                       FontSize="Medium"
+                       VerticalOptions="Center"
+                       TextColor="Black"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    
+    <!--Detail Page-->
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+
+    
+</MasterDetailPage>
+<!--</ContentPage>-->
