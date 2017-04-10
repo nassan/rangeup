@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fe="clr-namespace:FreshEssentials;assembly=FreshEssentials"
+             x:Class="RangeUpApp.Customers.AddNewCustomerPage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="StartAndExpand">
+            
+            <!--Name-->
+            <Entry  x:Name="name" Placeholder="Enter customer's name" Margin="20,20,20,0" ></Entry>
+            
+            <!--Gun-->
+            <fe:BindablePicker x:Name="gunType"  Margin="20,0,20,0" 
+                               ItemsSource="{Binding guns}"
+                               SelectedItem="{Binding SelectedGun}"
+                               DisplayProperty="MakeAndModel">
+            </fe:BindablePicker>
+
+            <!--Time-->
+            <Label x:Name="labelTime"/>
+            <Stepper x:Name="TimeStepper" Increment="5" Margin="20,0,20,0" 
+                     Minimum="0" Maximum="180" Value="30" ValueChanged="OnTimeChanged"></Stepper>
+            
+            <!--Save-->
+            <Button x:Name="saveBtn" Clicked="onSaveBtnClicked" BorderRadius="10" Text="Add New Customer"
+                    />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

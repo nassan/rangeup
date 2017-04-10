@@ -1,69 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fe="clr-namespace:FreshEssentials;assembly=FreshEssentials"
              x:Class="RangeUpApp.Customers.CustomerDetailPage"
              BackgroundColor="White"
              Title="RelativeLayout">
     <ContentPage.Content>
-        <RelativeLayout>
-            <BoxView Color="Gray" HeightRequest="100"
-            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-            <Button BorderRadius="35" x:Name="imageCircleBack"
-            BackgroundColor="Maroon" HeightRequest="70" WidthRequest="70" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.5, Constant = -35}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=70}" />
-            <Button BorderRadius="30" BackgroundColor="Red" HeightRequest="60"
-            WidthRequest="60" RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView, ElementName=imageCircleBack, Property=X, Factor=1,Constant=5}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=75}" />
-            <Label Text="User Name" FontAttributes="Bold" FontSize="26" x:Name="CustomerName"
-            HorizontalTextAlignment="Center" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=140}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+        <StackLayout>
+            <!--Name-->
+            <Label x:Name="NameLabel" Margin="20,10,20,0" Font="Bold,20" TextColor="#641e16" >Name</Label>
+            <Editor x:Name="NameEditor" Margin="20,0,20,0" TextChanged="OnNameChanged" ></Editor>
 
-            <!--<RelativeLayout Padding="5,0,0,0">
-                <Label FontSize="14" Text="GunType:" TextColor="Black"  VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Start" Margin="10,0,0,0" x:Name="CurrentGun"
-            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=190}"
-            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=10}"
-            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1,Constant=0}"
-            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=50}" />
-                
-            </RelativeLayout>-->
+
+            <Label x:Name="NewGunLabel" Margin="20,0,20,0" Font="Bold,20" TextColor="#641e16">Gun</Label>
+            <fe:BindablePicker x:Name="NewGunBindablePicker"  Margin="20,0,20,0" 
+                               SelectedIndexChanged="OnGunChanged" 
+                               ItemsSource="{Binding guns}"
+                               SelectedItem="{Binding SelectedGun}"
+                               DisplayProperty="MakeAndModel">
+            </fe:BindablePicker>
+
+            <!--Time Choose-->
+            <StackLayout Orientation="Horizontal" >
+                <Label x:Name="TimeLabel" Margin="20,0,20,0" Font="Bold,20" TextColor="#641e16" HorizontalOptions="StartAndExpand">Time</Label>
+                <Label x:Name="TimeLabelValue" Margin="20,0,20,0" Font="Bold,20" TextColor="#212f3c " HorizontalOptions="CenterAndExpand">Time</Label>
+                <Button x:Name="newTimeButtom" Margin="20,0,20,0" Clicked="onNewTimeButtonClicked" Text="Add time" HorizontalOptions="EndAndExpand"></Button>
+            </StackLayout>
+            <Stepper x:Name="TimeStepper" Increment="5" Margin="20,0,20,0" Minimum="0" Maximum="180" Value="30" ValueChanged="onStepperChanged" ></Stepper>
+            <!--<Editor x:Name="TimeEditor" Margin="20,0,20,0" TextChanged="OnTimeChanged" >Set new Time</Editor>-->
+
+            <Label x:Name="TimeLeftLabel" Margin="20,0,20,0" Font="Bold,20" TextColor="#641e16">TimeLeft</Label>
+            <Label x:Name="TimeLeft" Margin="20,0,20,0" ></Label>
+
             
-            <RelativeLayout Padding="5,0,0,0">
-            <Label FontSize="14" Text="GunType:" TextColor="Black"  VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Center" Margin="10,0,0,0"
-            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=230}"
-            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=10}"
-            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=.25,Constant=0}"
-            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=50}" />
-             
-            <Picker TextColor="Black" x:Name="GunTypePicker" SelectedIndex="{Binding Industry}" HorizontalOptions="FillAndExpand"
-                    Margin="0,0,30,0"
-                    RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=230}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.3, Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=0.75,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=50}">
-                <Picker.Items>
-                    <x:String>1</x:String>
-                    <x:String>2</x:String>
-                </Picker.Items>
-            </Picker>
+            <!--info-->
+            <Label Margin="20,0,20,0">Change the name or the gun type will be happend automatically. </Label>
             
-            </RelativeLayout>
-
-            <RelativeLayout Padding="5,0,0,0">
-                <Label FontSize="14" Text="Time:" TextColor="Black"  VerticalTextAlignment="Center"
-                       HorizontalTextAlignment="Center" Margin="10,0,0,0" x:Name="myTime"
-                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=270}"
-                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=10}"
-                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=.25,Constant=0}"
-                        RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=50}" />
-
-                <Stepper x:Name="myStepper" Minimum="0" Increment="5" Value="30" Maximum="180"   ValueChanged="myStepperChanged"
-                            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=270}"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.3, Constant=0}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=0.75,Constant=0}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0,Constant=50}"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </StackLayout>
     </ContentPage.Content>
 
 </ContentPage>

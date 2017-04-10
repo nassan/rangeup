@@ -8,12 +8,17 @@ namespace RangeUpApp
     {
         public static int count = 0;
 
-        public Customer(string Name, string GunType, string Countdown)
+        public Customer(string Name, string GunType, string Time)
         {
             this.Name = Name;
             this.GunType = GunType;
-            this.Countdown = Countdown;
+            this.Time = Time;
             this.number = count++;
+            this.StartTime = DateTime.Now;
+        }
+
+        public Customer()
+        {
         }
 
         public Customer(int number)
@@ -30,7 +35,10 @@ namespace RangeUpApp
         public string GunType { get; set; }
 
         // Time
-        public string Countdown { get; set; }
+        public string Time { get; set; }
+
+        // CurrentTime
+        public DateTime StartTime { get; set; }
 
         // For Analytics
         public string Visits { get; set; }

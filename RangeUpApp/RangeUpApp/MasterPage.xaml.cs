@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RangeUpApp.Customers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,31 +20,41 @@ namespace RangeUpApp
 		{
 			InitializeComponent ();
 
+            // initiate a list contains all menus 
             menuList = new List<MasterPageNavigationalItem>();
 
+            // 1. Customers Page
             var customers = new MasterPageNavigationalItem()
             { Title = "Customers", TargetType = typeof(Customers.CustomersPage) };
-            var page2 = new MasterPageNavigationalItem()
-            { Title = "Item 2",  TargetType = typeof(Page1) };
-            var page3 = new MasterPageNavigationalItem()
-            { Title = "Item 3",  TargetType = typeof(Page1) };
 
+            // generate pseudo-collection
+            CustomersCollectionHolder.generateRandCollection();
+
+            // 2. Analytics Page
+            var analytics = new MasterPageNavigationalItem()
+            { Title = "Analytics",  TargetType = typeof(Analytics.Analytics) };
+
+            // 3. Add new Customer Page - FloatAction Button (Fab doesn't work!)
+            var addNewCustomer = new MasterPageNavigationalItem()
+            { Title = "Add New customer",  TargetType = typeof(Customers.AddNewCustomerPage) };
+
+            // Append them to the list
             menuList.Add(customers);
-            menuList.Add(page2);
-            menuList.Add(page3);
+            menuList.Add(analytics);
+            menuList.Add(addNewCustomer);
 
+            // Bind data
             navigationDrawerList.ItemsSource = menuList;
 
+            // Set initial Page
             Detail = new NavigationPage((Page)Activator.CreateInstance(typeof(Customers.CustomersPage)));
-
-            
-            
 
         }
 
+        // When press om hamburger icon
         private void OnMenuItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            // magic, magic and open what we need
             var item = (MasterPageNavigationalItem)e.SelectedItem;
             Type page = item.TargetType;
 

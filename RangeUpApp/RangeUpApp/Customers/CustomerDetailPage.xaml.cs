@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using RangeUpApp.Gun;
+
+
 namespace RangeUpApp.Customers
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
@@ -14,10 +17,10 @@ namespace RangeUpApp.Customers
 	{
         private Customer customer;
 
+
         public CustomerDetailPage ()
 		{
 			InitializeComponent ();
-            GunTypePicker.SelectedIndexChanged += this.myPickerSelectedIndexChanged;
 
             //var selectedValue = GunTypePicker.Items[GunTypePicker.SelectedIndex];
         }
@@ -26,23 +29,101 @@ namespace RangeUpApp.Customers
         {
             this.customer = customer;
             InitializeComponent();
-            GunTypePicker.SelectedIndexChanged += this.myPickerSelectedIndexChanged;
-            CustomerName.Text = this.customer.Name;
-            CurrentGun.Text = "Current Gun is " + this.customer.GunType;
+            fillAllFiled();
+           
         }
 
-        public void myPickerSelectedIndexChanged(object sender, EventArgs e)
+       
+        public void OnNameChanged(object sender, TextChangedEventArgs e)
         {
-            //Method call every time when picker selection changed.
-            var selectedValue = GunTypePicker.Items[GunTypePicker.SelectedIndex];
-            DisplayAlert("Alert", selectedValue, "OK");
+            customer.Name = NameEditor.Text;
+            
         }
 
-
-        public void myStepperChanged(object sender, ValueChangedEventArgs e)
+        public void OnGunChanged(object sender, TextChangedEventArgs e)
         {
-            myTime.Text = Convert.ToString(e.NewValue) + "min";
+            customer.GunType =  GunClass.guns[NewGunBindablePicker.SelectedIndex];
+               
         }
+
+        public void onNewTimeButtonClicked(object sender, TextChangedEventArgs e)
+        {
+            // how much time left + new time
+            // How Much time have passed
+            TimeSpan tmp = DateTime.Now.Subtract(customer.StartTime);
+
+            // And How much time left for customer
+            TimeSpan leftTime = TimeSpan.FromMinutes(Convert.ToInt32(customer.Time)).Subtract(tmp);
+
+            int newValue = Convert.ToInt32(TimeLabelValue.Text);
+            int newTime = (int)leftTime.TotalMinutes + newValue;
+
+            // change time property
+            customer.Time = Convert.ToString(newTime);
+
+            // change starttime property
+            customer.StartTime = DateTime.Now;
+            fillAllFiled();
+        }
+
+        public void onStepperChanged(object sender, TextChangedEventArgs e)
+        {
+            TimeLabelValue.Text = Convert.ToString(TimeStepper.Value);
+        }
+
+        
+        private void fillAllFiled()
+        {
+            // Name
+            NameEditor.Text = customer.Name;
+
+            // Gun
+            NewGunBindablePicker.ItemsSource = GunClass.guns;
+            NewGunBindablePicker.SelectedItem = customer.GunType;
+
+            //Time
+            //TimeEditor.Text = customer.Time;
+            TimeLabelValue.Text = customer.Time;
+
+            //Time Left
+            double TimePassed = (DateTime.Now - customer.StartTime).TotalMinutes;
+            if (TimeSpan.FromMinutes(Convert.ToInt32(customer.Time)).TotalMinutes > TimePassed)
+            {
+                // e.g. Customer still has it's time
+
+                // start timer
+                Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+                {
+                    // How Much time have passed
+                    TimeSpan tmp = DateTime.Now.Subtract(customer.StartTime);
+
+                    // And How much time left for customer
+                    TimeSpan leftTime = TimeSpan.FromMinutes(Convert.ToInt32(customer.Time)).Subtract(tmp);
+
+                    // Beauty f*cking magic
+                    var formatted = string.Format("{0:hh\\:mm\\:ss}", leftTime);
+
+                    // How i happy that it works
+                    TimeLeft.Text = formatted;
+
+                    // true for repeat
+                    if (leftTime.TotalMilliseconds < 0)
+                    {
+                        return false;
+                    } else
+                    {
+                        return true;
+                    }
+                });
+            }
+            else
+            {
+                // Bye-bye
+                TimeLeft.Text = "time's up";
+            }
+        }
+
+        
     }
 
   

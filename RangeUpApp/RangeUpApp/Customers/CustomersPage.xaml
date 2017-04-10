@@ -1,28 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fab="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              x:Class="RangeUpApp.Customers.CustomersPage"
              Title="Customers">
-    <ListView x:Name="CustomersView"
-              ItemSelected="OnItemSelected"
-              >
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <ViewCell.ContextActions>
-                        <MenuItem Clicked="OnMore" CommandParameter="{Binding number}"
-                            Text="More" />
-                        <MenuItem Clicked="OnDelete" CommandParameter="{Binding number}"
-                            Text="Delete" IsDestructive="True" />
-                    </ViewCell.ContextActions>
+    <ContentPage.Content>
+        <RelativeLayout>
+            <ContentView
+				RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+                <ListView x:Name="CustomersView"
+                          ItemSelected="OnItemSelected"
+                          ItemTapped="OnItemTapped" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Clicked="OnMore" CommandParameter="{Binding number}"
+                                        Text="More" />
+                                    <MenuItem Clicked="OnDelete" CommandParameter="{Binding number}"
+                                        Text="Delete" IsDestructive="True" />
+                                </ViewCell.ContextActions>
 
-                    <StackLayout Padding="15,0">
-                        <Label Text="{Binding Name}" />
-                    </StackLayout>
-                </ViewCell>
-                
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+                                <StackLayout Padding="15,0">
+                                    <Label Text="{Binding Name}" />
+                                </StackLayout>
+                            </ViewCell>
 
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ContentView>
+            <fab:FloatingActionButton
+				x:Name="fabBtn"
+				Size="Normal"
+				NormalColor="Green"
+				RippleColor="Red"
+				RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-75}"
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-75}" />
+        </RelativeLayout>
+    </ContentPage.Content>
 </ContentPage>
